@@ -12,7 +12,7 @@
                 <p>Query 1</p>
                 <p>Top 10 time slots (year and month) with the highest trade value (i.e. import value + export
                     value)</p>
-                    <!--RESULTS QUERY-->
+                    <!--RESULTS QUERY ONE-->
                     <table>
                         <tr>
                             <th>time_ref</th>
@@ -30,6 +30,23 @@
                 <p>Query 2</p>
                 <p> Top 50 countries with the highest total trade deficit value (i.e. import value - export value) of
                     goods from 2014 to 2016 where status is “F”</p>
+                    <!--RESULTS QUERY TWO-->
+                    <table>
+                        <tr>
+                            <th>Country Name</th>
+                            <th>Product Type</th>
+                            <th>Trade Deficit Value</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for x in q_two %}
+                        <tr>
+                            <td>{{x.Country}}</td>
+                            <td>Goods</td>
+                            <td>${{x.trade_deficit_value}}</td>
+                            <td>F</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
             </li>
             <li>
                 <p>Query 3</p> 
