@@ -1,1 +1,41 @@
-<h1>Assignment 1 - Task 2</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        th, td {border: 1px solid black;}
+    </style>
+</head>
+    <body>
+        <h1>Assignment 1 - Task 2</h1>
+        <ul>
+            <li>
+                <p>Query 1</p>
+                <p>Top 10 time slots (year and month) with the highest trade value (i.e. import value + export
+                    value)</p>
+                    <!--RESULTS QUERY-->
+                    <table>
+                        <tr>
+                            <th>time_ref</th>
+                            <th>trade value</th>
+                        </tr>
+                        {% for x in range(10) %}
+                        <tr>
+                            <td>{{q_one[0][x]}}</td>
+                            <td>${{q_one[1][x]}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+            </li>
+            <li>
+                <p>Query 2</p>
+                <p> Top 50 countries with the highest total trade deficit value (i.e. import value - export value) of
+                    goods from 2014 to 2016 where status is “F”</p>
+            </li>
+            <li>
+                <p>Query 3</p> 
+                <p>Top 30 services with the highest total trade surplus value (i.e. export value - import value) in the
+                    top 10 time slots of Query Result 1 and the top 50 countries of Query Result 2.</p>
+            </li>
+        </ul>
+    </body>
+</html>
