@@ -52,6 +52,19 @@
                 <p>Query 3</p> 
                 <p>Top 30 services with the highest total trade surplus value (i.e. export value - import value) in the
                     top 10 time slots of Query Result 1 and the top 50 countries of Query Result 2.</p>
+                    <!--RESULTS QUERY THREE-->
+                    <table>
+                        <tr>
+                            <th>Service Label</th>
+                            <th>Trade Surplus Value</th>
+                        </tr>
+                        {% for x in q_three %}
+                        <tr>
+                            <td>{{x.service_label}}</td>
+                            <td>${{x.trade_surplus_value}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
             </li>
         </ul>
     </body>

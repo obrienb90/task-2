@@ -124,6 +124,75 @@ def queryTwo():
 
     return results_list
 
+# query three
+def queryThree():
+
+     # define the query
+    QUERY = (
+
+    'select string_field_1 AS service_label, sum(value) as trade_surplus_value '
+    'from '
+    '(`s3298931-a1-2.gsquarterlySeptember20.gsquarterlySeptember20` AS a '
+    'inner join '
+    '`s3298931-a1-2.gsquarterlySeptember20.services_classification` AS b '
+    'on a.code = b.string_field_0 '
+    ') '
+    'where time_ref IN '
+    '( '
+    '    select time_ref '
+    '    from ( '
+    '    select time_ref, sum(value) as trade_value '
+    '    from `s3298931-a1-2.gsquarterlySeptember20.gsquarterlySeptember20` '
+    '    group by time_ref '
+    '    order by trade_value DESC '
+    '    limit 10 '
+    '    ) '
+    ') '
+    'and country_code in '
+    '( '
+    '    select country_code '
+    '    from ' 
+    '    ( '
+    '        select export_table.country_code, (imports-exports) as trade_deficit '
+    '        from ' 
+    '        ( '
+    '            ( '
+    '                select country_code, sum(value) as exports '
+    '                from `s3298931-a1-2.gsquarterlySeptember20.gsquarterlySeptember20` '
+    '                where status = "F" and account = "Exports" and time_ref >= 201400 and time_ref <= 201612 '
+    '                group by country_code '
+    '            ) AS export_table '
+    '            inner join ' 
+    '            ( '
+    '                select country_code, sum(value) as imports '
+    '                from `s3298931-a1-2.gsquarterlySeptember20.gsquarterlySeptember20` '
+    '                where status = "F" and account = "Imports" and time_ref >= 201400 and time_ref <= 201612 '
+    '                group by country_code '  
+    '            ) AS import_table '
+    '            on export_table.country_code = import_table.country_code '
+    '        ) '
+    '        order by trade_deficit DESC'  
+    '        limit 50 '
+    '    ) '
+    ') '
+    'group by string_field_1 '
+    'order by trade_surplus_value DESC '
+    'limit 30'
+    )
+
+    # execute the query
+    query_job = client.query(QUERY)
+    rows = query_job.result()
+
+    # create an empty list to store the results
+    results_list = []
+
+    for e in rows:
+        results_list.append(e)
+        print(e)
+
+    return results_list
+
 # home page
 @app.route("/")
 def home():
@@ -133,7 +202,9 @@ def home():
 
     query_two = queryTwo()
 
-    return render_template("index.html", q_one=query_one, q_two=query_two)
+    query_three = queryThree()
+
+    return render_template("index.html", q_one=query_one, q_two=query_two, q_three=query_three)
     
 if __name__ == "__main__":
     app.run(debug=True)
